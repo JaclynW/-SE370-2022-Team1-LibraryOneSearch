@@ -10,6 +10,7 @@ public class LibraryMaterial
     int ISBN = 0;
     String materialType = " ";
     LibrarySystem libSystem;
+    String link = " "; //this is a link the library material's info page on the library website so the user can take further action
 
     /**
      * Constructor
@@ -59,6 +60,10 @@ public class LibraryMaterial
         this.libSystem = libSystem;
     }
 
+    public String getLink() {return link;}
+
+    public void setLink(String link) {this.link = link;}
+
     @Override
     public String toString() {
         return "LibraryMaterial{" +
@@ -67,6 +72,7 @@ public class LibraryMaterial
                 ", ISBN=" + ISBN +
                 ", materialType='" + materialType + '\'' +
                 ", libSystem=" + libSystem +
+                ", link='" + link + '\'' +
                 '}';
     }
 }
