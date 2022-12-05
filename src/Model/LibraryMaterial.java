@@ -5,19 +5,27 @@ package Model;
  */
 public class LibraryMaterial
 {
-    String author = " ";
-    String title = " ";
-    int ISBN = 0;
-    String materialType = " ";
+    String author;
+    String title;
+    int ISBN;
+    String materialType;
     LibrarySystem libSystem;
     String link = " "; //this is a link the library material's info page on the library website so the user can take further action
 
-    /**
-     * Constructor
-     */
     public LibraryMaterial()
     {
-        //TODO: complete constructor. Should there be two?
+        author = " ";
+        title = " ";
+        ISBN = 0;
+        materialType = " ";
+    }
+    // 4 parameter constructor
+    public LibraryMaterial(String a, String t, int ISB, String m)
+    {
+        author = a;
+        title = t;
+        ISBN = ISB;
+        materialType = m;
     }
 
     public String getAuthor() {
