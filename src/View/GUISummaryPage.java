@@ -42,7 +42,7 @@ package View;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-class text extends JFrame implements ActionListener {
+class GUISummaryPage extends JFrame implements ActionListener {
     // JTextField
     static JTextField t;
 
@@ -59,7 +59,7 @@ class text extends JFrame implements ActionListener {
     static JLabel l;
 
     // default constructor
-    text() {}
+    GUISummaryPage() {}
 
     // main class
     public static void main(String[] args)
@@ -74,7 +74,7 @@ class text extends JFrame implements ActionListener {
         b = new JButton("search");
 
         // create a object of the text class
-        text te = new text();
+        GUISummaryPage te = new GUISummaryPage();
 
         // addActionListener to button
         b.addActionListener(te);
