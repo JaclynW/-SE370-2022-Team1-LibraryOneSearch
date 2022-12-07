@@ -72,31 +72,49 @@ public class DataAccessObject implements Database_Access_IF
         {
             LibraryMaterial lm = new LibraryMaterial();
 
-            for (Element title : tracks2.select("div.INITIAL_TITLE_SRCH")) //TODO: look into the el, el, el check
+            String title = tracks2.select("div.INITIAL_TITLE_SRCH").text();
+            lm.setTitle(title);
+            String author = tracks2.select("div.INITIAL_AUTHOR_SRCH").text();
+            if(author.isEmpty())
             {
-
-                lm.setTitle(title.text());
-
-                for (Element author: tracks2.select("div.INITIAL_AUTHOR_SRCH"))
-                {
-                    lm.setAuthor(author.text());
-
-                    for (Element matType: tracks2.select("div.formatType, div.formatText"))
-                    {
-                        lm.setMaterialType(matType.text());
-//                        for (Element avail: tracks2.select("div.availableDiv0"))
-
-                    }
-                    for (Element avail: tracks2.getElementsByTag("availableDiv0"))
-                    {
-
-                        lm.setAvailability(avail.text());
-                    }
-
-                }
-
-                this.libraryM.add(lm);
+                lm.setAuthor("N/A");
             }
+            else
+            {
+                lm.setAuthor(author);
+            }
+
+            String matType = tracks2.select("div.formatType, div.formatText").text();
+            lm.setMaterialType(matType);
+            String avail = tracks2.select("availableDiv0").text();
+            lm.setAvailability(avail);
+
+//            for (Element title : tracks2.select("div.INITIAL_TITLE_SRCH"))
+//            {
+//
+//                lm.setTitle(title.text());
+//
+//                for (Element author: tracks2.select("div.INITIAL_AUTHOR_SRCH"))
+//                {
+//                    lm.setAuthor(author.text());
+//
+//                    for (Element matType: tracks2.select("div.formatType, div.formatText"))
+//                    {
+//                        lm.setMaterialType(matType.text());
+////                        for (Element avail: tracks2.select("div.availableDiv0"))
+//
+//                    }
+//                    for (Element avail: tracks2.getElementsByTag("availableDiv0"))
+//                    {
+//
+//                        lm.setAvailability(avail.text());
+//                    }
+//
+//                }
+//
+//                this.libraryM.add(lm);
+//            }
+            this.libraryM.add(lm);
 
         }
     }

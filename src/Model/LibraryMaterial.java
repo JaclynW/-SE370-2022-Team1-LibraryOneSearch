@@ -98,6 +98,6 @@ public class LibraryMaterial
                 "Title: " + title + "\n" +
                 "Author: " + author + "\n" +
                 "Material type: " + materialType + "\n" +
-                "Availability: " + materialType + "\n\n" ;
+                "Availability: " + availability + "\n\n" ;
     }
 }
