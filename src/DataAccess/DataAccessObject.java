@@ -5,30 +5,35 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import Model.Database_Access_IF;
+import Model.LibraryMaterial;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import javax.print.Doc;
 
 //TODO: This class should inherit from the Database_Access_IF class.
 //This class is what interacts with the UIController which gives user input to database, here.
 // This class also send info back via the DataTransfer Object
 
-public class DataAccessObject
+
+public class DataAccessObject implements Database_Access_IF
 {
     String SEARCH_STRING = " ";
     String librarySystem = " ";
-    //Most of the time, the url for a library has the search string sandwiched within the url.
-    // If this is the case we need the end of the url in this variable.
     String URLFront = " ";
     String URLEnd = " ";
-    List<String> libraryM; //This is to hold the result list
+    ArrayList<LibraryMaterial> libraryM;
+//    List<String> libraryM; //This is to hold the result list
 
 
     public DataAccessObject(String SEARCH_STRING, String librarySystem)
     {
         this.SEARCH_STRING = SEARCH_STRING;
         this.librarySystem = librarySystem;
-        libraryM = new ArrayList<String>();
+        libraryM = new ArrayList<LibraryMaterial>();
+//        libraryM = new ArrayList<String>();
 
         //Set library system to appropriate search link
         switch (librarySystem)
@@ -61,8 +66,42 @@ public class DataAccessObject
 
     public void setLibrarySystem(String librarySystem) {this.librarySystem = librarySystem;}
 
+    public void getResultBio(Document doc2) throws IOException
+    {
+        for (Element tracks2 : doc2.select("div.results_bio"))
+        {
+            LibraryMaterial lm = new LibraryMaterial();
+
+            for (Element title : tracks2.select("div.INITIAL_TITLE_SRCH")) //TODO: look into the el, el, el check
+            {
+
+                lm.setTitle(title.text());
+
+                for (Element author: tracks2.select("div.INITIAL_AUTHOR_SRCH"))
+                {
+                    lm.setAuthor(author.text());
+
+                    for (Element matType: tracks2.select("div.formatType, div.formatText"))
+                    {
+                        lm.setMaterialType(matType.text());
+//                        for (Element avail: tracks2.select("div.availableDiv0"))
+
+                    }
+                    for (Element avail: tracks2.getElementsByTag("availableDiv0"))
+                    {
+
+                        lm.setAvailability(avail.text());
+                    }
+
+                }
+
+                this.libraryM.add(lm);
+            }
+
+        }
+    }
     //Crawls the html
-    public void getResultsHelper(Document doc2) throws IOException
+    public void getTitleResults(Document doc2) throws IOException
     {
         //Find all titles
 //        for (Element tracks : doc2.select("div.displayDetailLink"))
@@ -75,13 +114,21 @@ public class DataAccessObject
 //
 //            }
 //        }
-        String title = "";
+
         //Find all authors or call numbers
 //        for (Element tracks2 : doc2.select("div.displayElementWrapper"))
 //        for (Element tracks2 : doc2.select("div.results_every_four"))
-        for (Element tracks2 : doc2.select("div.results_bio"))
+//        for (Element tracks2 : doc2.select("div.results_bio"))
+        for (Element tracks2 : doc2.select("div.PREFERRED_CALLNUMBER"))
         {
-            this.libraryM.add(tracks2.text());
+
+//            this.libraryM.add(tracks2.text());
+//            LibraryMaterial lm = new LibraryMaterial(tracks2.id("title"), tracks2.id(""));
+//            tracks2.select("div#");
+//            String resultBio = tracks2.text();
+
+            LibraryMaterial lm = new LibraryMaterial(tracks2.text(), "null", "null");
+            this.libraryM.add(lm);
 
         }
 //        displayElementText text-p highlightMe PREFERRED_CALLNUMBER
@@ -92,12 +139,33 @@ public class DataAccessObject
         //class of copies #: availableDiv copiesCountSection
     }
 
+    public void getMaterialTypeResults(Document doc2 ) throws IOException
+    {
+        for (Element tracks2 : doc2.select("div.INITIAL_AUTHOR_SRCH"))
+        {
+            LibraryMaterial lm = new LibraryMaterial("null","null" , tracks2.text());
+            this.libraryM.add(lm);
+        }
+    }
+
+    public void getAuthorResults(Document doc2 ) throws IOException
+    {
+        for (Element tracks2 : doc2.select("div.INITIAL_AUTHOR_SRCH"))
+        {
+            LibraryMaterial lm = new LibraryMaterial("null", tracks2.text(), "null");
+            this.libraryM.add(lm);
+        }
+    }
+
     //Updates url and prints list of results to console
-    public ArrayList<String> getResults() throws IOException
+    public ArrayList<LibraryMaterial> getResults() throws IOException
     {
 
         Document doc2 = Jsoup.connect(URLFront + SEARCH_STRING + URLEnd).referrer(URLFront + SEARCH_STRING + URLEnd).get();
-        getResultsHelper(doc2);
+//        getTitleResults(doc2);
+//        getAuthorResults(doc2);
+        getResultBio(doc2);
+
         //For the next result pages
         int URLMath = 0;
         while(URLMath < 24)
@@ -106,7 +174,9 @@ public class DataAccessObject
             URLMath += 12;
             URLEnd = "&rw=" + URLMath + "&isd=true"; //For Serra testing
             doc2 = Jsoup.connect(URLFront + SEARCH_STRING + URLEnd).referrer(URLFront + SEARCH_STRING + URLEnd).get();
-            getResultsHelper(doc2);
+//            getTitleResults(doc2);
+//            getAuthorResults(doc2);
+            getResultBio(doc2);
         }
 
         //Show what we found
@@ -119,8 +189,10 @@ public class DataAccessObject
             System.out.println(libraryM.get(i));
         }
 
-        return (ArrayList<String>) libraryM;
+//        return (ArrayList<String>) libraryM;
+        return libraryM;
     }
+
 
 
 
