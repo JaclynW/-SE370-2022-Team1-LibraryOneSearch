@@ -5,6 +5,7 @@ import DataAccess.DataAccessObject;
 import Model.DataTransferObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class UIController
 {
@@ -15,7 +16,7 @@ public class UIController
 
         //User submits search input
         //DataTransferObject with DataAccessObj as parameter with user input
-        DataAccessObject DAO = new DataAccessObject("Vogue", "Serra");
+        DataAccessObject DAO = new DataAccessObject("vegan", "Serra");
         DataTransferObject DTO = new DataTransferObject(DAO);
         DTO.getResultList(); //This will give a ArrayList of LibraryMaterial objects
 

@@ -5,27 +5,30 @@ package Model;
  */
 public class LibraryMaterial
 {
-    String author;
-    String title;
-    int ISBN;
-    String materialType;
+    String author = " ";
+    String title = " ";
+    int ISBN = 0;
+    String materialType = " ";
+    String availability = " ";
     LibrarySystem libSystem;
     String link = " "; //this is a link the library material's info page on the library website so the user can take further action
 
+    /**
+     * Constructors
+     */
+    public LibraryMaterial(String title, String author, String matType)
+    {
+        this.title = title;
+        this.author = author;
+        this.materialType = matType;
+    }
+
     public LibraryMaterial()
     {
-        author = " ";
-        title = " ";
-        ISBN = 0;
-        materialType = " ";
-    }
-    // 4 parameter constructor
-    public LibraryMaterial(String a, String t, int ISB, String m)
-    {
-        author = a;
-        title = t;
-        ISBN = ISB;
-        materialType = m;
+        this.title = "title";
+        this.author = "No author found";
+        this.materialType = "Not specified";
+        this.availability = "Not found";
     }
 
     public String getAuthor() {
@@ -72,15 +75,29 @@ public class LibraryMaterial
 
     public void setLink(String link) {this.link = link;}
 
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
+    }
+
     @Override
     public String toString() {
-        return "LibraryMaterial{" +
-                "author='" + author + '\'' +
-                ", title='" + title + '\'' +
-                ", ISBN=" + ISBN +
-                ", materialType='" + materialType + '\'' +
-                ", libSystem=" + libSystem +
-                ", link='" + link + '\'' +
-                '}';
+//        return "LibraryMaterial{" +
+//                "author='" + author + '\'' +
+//                ", title='" + title + '\'' +
+//                ", ISBN=" + ISBN +
+//                ", materialType='" + materialType + '\'' +
+//                ", availability=" + availability + '\'' +
+//                ", libSystem=" + libSystem +
+//                ", link='" + link + '\'' +
+//                '}';
+        return "----Library Material----" + "\n" +
+                "Title: " + title + "\n" +
+                "Author: " + author + "\n" +
+                "Material type: " + materialType + "\n" +
+                "Availability: " + availability + "\n\n" ;
     }
 }

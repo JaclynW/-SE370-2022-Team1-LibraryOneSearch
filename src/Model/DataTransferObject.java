@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class DataTransferObject
 {
-    ArrayList<String> results = new ArrayList<String>();
+    ArrayList<LibraryMaterial> results = new ArrayList<LibraryMaterial>();
     DataAccessObject DAO = new DataAccessObject("Default","Default");
 
     public DataTransferObject(DataAccessObject DAO) throws IOException
@@ -17,7 +17,7 @@ public class DataTransferObject
         this.results = DAO.getResults();
     }
 
-    public ArrayList<String> getResultList()
+    public ArrayList<LibraryMaterial> getResultList()
     {
         return results;
     }
