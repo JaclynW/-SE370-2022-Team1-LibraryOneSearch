@@ -1,5 +1,7 @@
 package DataAccess;
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +21,14 @@ public class DataAccessObject
     // If this is the case we need the end of the url in this variable.
     String URLFront = " ";
     String URLEnd = " ";
+    List<String> libraryM; //This is to hold the result list
 
 
     public DataAccessObject(String SEARCH_STRING, String librarySystem)
     {
         this.SEARCH_STRING = SEARCH_STRING;
         this.librarySystem = librarySystem;
+        libraryM = new ArrayList<String>();
 
         //Set library system to appropriate search link
         switch (librarySystem)
@@ -57,38 +61,61 @@ public class DataAccessObject
 
     public void setLibrarySystem(String librarySystem) {this.librarySystem = librarySystem;}
 
+    //Crawls the html
+    public void getResultsHelper(Document doc2) throws IOException
+    {
+        //Find all titles
+//        for (Element tracks : doc2.select("div.displayDetailLink"))
+//        {
+////            System.out.println(tracks);
+//            //start crawling the html by tag
+//            for (Element links : tracks.getElementsByTag("a"))
+//            {
+//                this.libraryM.add(links.text());
+//
+//            }
+//        }
+        String title = "";
+        //Find all authors or call numbers
+//        for (Element tracks2 : doc2.select("div.displayElementWrapper"))
+//        for (Element tracks2 : doc2.select("div.results_every_four"))
+        for (Element tracks2 : doc2.select("div.results_bio"))
+        {
+            this.libraryM.add(tracks2.text());
+
+        }
+//        displayElementText text-p highlightMe PREFERRED_CALLNUMBER
+//        displayElementText text-p highlightMe INITIAL_AUTHOR_SRCH
+
+        //class of availability #: availableDiv availableCountSection
+        // class of hold #: availableDiv holdsCountSection
+        //class of copies #: availableDiv copiesCountSection
+    }
+
+    //Updates url and prints list of results to console
     public ArrayList<String> getResults() throws IOException
     {
-        //Testing: Grab the title of the Carlsbad Library website
-//        Document doc = Jsoup.connect("https://library.carlsbadca.gov/").get();
-//        String title = doc.title();
-//        System.out.println("title is: " + title);
 
-        List<String> libraryM = new ArrayList<String>(); //This is to hold the result list
         Document doc2 = Jsoup.connect(URLFront + SEARCH_STRING + URLEnd).referrer(URLFront + SEARCH_STRING + URLEnd).get();
-
-
-        boolean nextPagePresent = true;
-
-//        do {
-            //Grab results by their element type and put in a list
-            for (Element tracks : doc2.select("div.displayDetailLink")) {
-//            System.out.println(tracks.getAllElements());
-//            System.out.println(tracks.getElementsByTag("title"));
-
-                for (Element links : tracks.getElementsByTag("a")) {
-                    libraryM.add(links.text());
-                }
-            }
-
-//        } while (nextPagePresent);
+        getResultsHelper(doc2);
+        //For the next result pages
+        int URLMath = 0;
+        while(URLMath < 24)
+        {
+            //Update url
+            URLMath += 12;
+            URLEnd = "&rw=" + URLMath + "&isd=true"; //For Serra testing
+            doc2 = Jsoup.connect(URLFront + SEARCH_STRING + URLEnd).referrer(URLFront + SEARCH_STRING + URLEnd).get();
+            getResultsHelper(doc2);
+        }
 
         //Show what we found
         int numOfResultsFound = libraryM.size();
         System.out.println("Number of results found for " + SEARCH_STRING + " : " + numOfResultsFound + "\n");
 
         int length = libraryM.size();
-        for (int i = 0; i < length; i++) {
+        for (int i = 0; i < length; i++)
+        {
             System.out.println(libraryM.get(i));
         }
 

@@ -15,9 +15,11 @@ public class LibraryMaterial
     /**
      * Constructor
      */
-    public LibraryMaterial()
+    public LibraryMaterial(String title, String author, String matType)
     {
-        //TODO: complete constructor. Should there be two?
+        this.title = title;
+        this.author = author;
+        this.materialType = matType;
     }
 
     public String getAuthor() {
