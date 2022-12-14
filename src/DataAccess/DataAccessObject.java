@@ -20,14 +20,15 @@ import javax.print.Doc;
 
 public class DataAccessObject implements Database_Access_IF
 {
-    String SEARCH_STRING = " ";
-    String librarySystem = " ";
-    String URLFront = " ";
-    String URLEnd = " ";
-    ArrayList<LibraryMaterial> libraryM;
-//    List<String> libraryM; //This is to hold the result list
+    private String SEARCH_STRING = " ";
+    private String librarySystem = " ";
+    private String URLFront = " ";
+    private String URLEnd = " ";
+    private ArrayList<LibraryMaterial> libraryM;
 
-
+    /**
+     * Constructor
+     * */
     public DataAccessObject(String SEARCH_STRING, String librarySystem)
     {
         this.SEARCH_STRING = SEARCH_STRING;
@@ -86,8 +87,12 @@ public class DataAccessObject implements Database_Access_IF
 
             String matType = tracks2.select("div.formatType, div.formatText").text();
             lm.setMaterialType(matType);
-            String avail = tracks2.select("availableDiv0").text();
-            lm.setAvailability(avail);
+            String avail1= tracks2.select("availableNumber").html();
+//            System.out.println(avail1);
+            boolean avail = tracks2.select("el#availableNumber_hitlist0").hasText();
+            //availableNumber ercAvailableCountNumber
+//            System.out.println("A: " + avail);
+            lm.setAvailability(avail + " ");
 
 //            for (Element title : tracks2.select("div.INITIAL_TITLE_SRCH"))
 //            {
@@ -180,8 +185,6 @@ public class DataAccessObject implements Database_Access_IF
     {
 
         Document doc2 = Jsoup.connect(URLFront + SEARCH_STRING + URLEnd).referrer(URLFront + SEARCH_STRING + URLEnd).get();
-//        getTitleResults(doc2);
-//        getAuthorResults(doc2);
         getResultBio(doc2);
 
         //For the next result pages
@@ -192,8 +195,6 @@ public class DataAccessObject implements Database_Access_IF
             URLMath += 12;
             URLEnd = "&rw=" + URLMath + "&isd=true"; //For Serra testing
             doc2 = Jsoup.connect(URLFront + SEARCH_STRING + URLEnd).referrer(URLFront + SEARCH_STRING + URLEnd).get();
-//            getTitleResults(doc2);
-//            getAuthorResults(doc2);
             getResultBio(doc2);
         }
 

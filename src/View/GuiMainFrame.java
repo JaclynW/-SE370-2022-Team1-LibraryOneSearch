@@ -1,3 +1,4 @@
+package View;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -60,6 +61,7 @@ public class GuiMainFrame extends JFrame {
     //Error Throws:
 
     public static void main(String[] args) {
+
         GuiMainFrame myFrame = new GuiMainFrame();
     }
 }

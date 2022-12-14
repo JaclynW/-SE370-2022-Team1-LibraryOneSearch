@@ -10,7 +10,7 @@ public class LibraryMaterial
     int ISBN = 0;
     String materialType = " ";
     String availability = " ";
-    LibrarySystem libSystem;
+//    LibrarySystem libSystem;
     String link = " "; //this is a link the library material's info page on the library website so the user can take further action
 
     /**
@@ -63,13 +63,13 @@ public class LibraryMaterial
         this.materialType = materialType;
     }
 
-    public LibrarySystem getLibSystem() {
-        return libSystem;
-    }
-
-    public void setLibSystem(LibrarySystem libSystem) {
-        this.libSystem = libSystem;
-    }
+//    public LibrarySystem getLibSystem() {
+//        return libSystem;
+//    }
+//
+//    public void setLibSystem(LibrarySystem libSystem) {
+//        this.libSystem = libSystem;
+//    }
 
     public String getLink() {return link;}
 

@@ -10,7 +10,7 @@ public interface Database_Access_IF
     void setSEARCH_STRING(String SEARCH_STRING);
     String getLibrarySystem();
     void setLibrarySystem(String librarySystem);
-//    void getResultsHelper(Document doc2) throws IOException;
+    void getResultBio(Document doc2) throws IOException;
     ArrayList<LibraryMaterial> getResults() throws IOException;
 
 }
