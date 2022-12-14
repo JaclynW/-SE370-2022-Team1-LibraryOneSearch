@@ -72,7 +72,6 @@ public class DataAccessObject implements Database_Access_IF
         for (Element tracks2 : doc2.select("div.results_bio"))
         {
             LibraryMaterial lm = new LibraryMaterial();
-
             String title = tracks2.select("div.INITIAL_TITLE_SRCH").text();
             lm.setTitle(title);
             String author = tracks2.select("div.INITIAL_AUTHOR_SRCH").text();
@@ -87,12 +86,12 @@ public class DataAccessObject implements Database_Access_IF
 
             String matType = tracks2.select("div.formatType, div.formatText").text();
             lm.setMaterialType(matType);
-            String avail1= tracks2.select("availableNumber").html();
-//            System.out.println(avail1);
-            boolean avail = tracks2.select("el#availableNumber_hitlist0").hasText();
+            String avail1= tracks2.select("ercAvailableCountNumber").text();
+            System.out.println(avail1);
+//            boolean avail = tracks2.select("el#availableNumber_hitlist0").hasText();
             //availableNumber ercAvailableCountNumber
 //            System.out.println("A: " + avail);
-            lm.setAvailability(avail + " ");
+            lm.setAvailability(avail1 + " ");
 
 //            for (Element title : tracks2.select("div.INITIAL_TITLE_SRCH"))
 //            {

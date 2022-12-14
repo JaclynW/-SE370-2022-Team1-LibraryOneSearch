@@ -116,3 +116,35 @@
 //        }
 //    }
 //}
+
+package View;
+import Controller.UIController;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import java.util.*;
+
+public class GUISummaryPage extends JPanel implements ActionListener {
+
+    private JButton back;
+    private JTextField textField;
+
+    public GUISummaryPage() {
+        back = new JButton("Back");
+        textField = new JTextField(20);
+        back.addActionListener(this);
+        setLayout(new BorderLayout());
+        add(back);
+        setVisible(true);
+        setSize(400, 500);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == back) {
+            UIController.getInstance().changeCard("Next");
+        }
+
+    }
+}

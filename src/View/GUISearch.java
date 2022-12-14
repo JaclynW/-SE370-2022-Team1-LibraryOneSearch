@@ -53,3 +53,48 @@
 //        frame.setVisible(true);
 //    }
 //}
+
+package View;
+
+import Controller.UIController;
+
+import java.awt.*;
+import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.event.*;
+import java.util.*;
+
+public class GUISearch extends JPanel implements ActionListener {
+
+    private JButton search, add, delete;
+    private JTextField textField;
+
+    public GUISearch() {
+
+        search = new JButton("Search");
+        add = new JButton("Add");
+        delete = new JButton("Delete");
+        textField = new JTextField(20);
+        add.addActionListener(this);
+        delete.addActionListener(this);
+        setLayout(new BorderLayout());
+        JPanel top = new JPanel();
+        top.add(search);
+        add(top, BorderLayout.NORTH);
+        JPanel bottom = new JPanel();
+        bottom.add(add);
+        bottom.add(delete);
+        add(bottom, BorderLayout.SOUTH);
+        setVisible(true);
+        setSize(400, 500);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == add) {
+            UIController.getInstance().changeCard("Next");
+        } else if (e.getSource() == delete) {
+            System.out.println("do something");
+        }
+    }
+
+}
