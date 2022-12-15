@@ -13,7 +13,6 @@ import org.jsoup.nodes.Element;
 
 import javax.print.Doc;
 
-//TODO: This class should inherit from the Database_Access_IF class.
 //This class is what interacts with the UIController which gives user input to database, here.
 // This class also send info back via the DataTransfer Object
 
@@ -34,7 +33,6 @@ public class DataAccessObject implements Database_Access_IF
         this.SEARCH_STRING = SEARCH_STRING;
         this.librarySystem = librarySystem;
         libraryM = new ArrayList<LibraryMaterial>();
-//        libraryM = new ArrayList<String>();
 
         //Set library system to appropriate search link
         switch (librarySystem)
@@ -93,89 +91,8 @@ public class DataAccessObject implements Database_Access_IF
 //            System.out.println("A: " + avail);
             lm.setAvailability(avail1 + " ");
 
-//            for (Element title : tracks2.select("div.INITIAL_TITLE_SRCH"))
-//            {
-//
-//                lm.setTitle(title.text());
-//
-//                for (Element author: tracks2.select("div.INITIAL_AUTHOR_SRCH"))
-//                {
-//                    lm.setAuthor(author.text());
-//
-//                    for (Element matType: tracks2.select("div.formatType, div.formatText"))
-//                    {
-//                        lm.setMaterialType(matType.text());
-////                        for (Element avail: tracks2.select("div.availableDiv0"))
-//
-//                    }
-//                    for (Element avail: tracks2.getElementsByTag("availableDiv0"))
-//                    {
-//
-//                        lm.setAvailability(avail.text());
-//                    }
-//
-//                }
-//
-//                this.libraryM.add(lm);
-//            }
             this.libraryM.add(lm);
 
-        }
-    }
-    //Crawls the html
-    public void getTitleResults(Document doc2) throws IOException
-    {
-        //Find all titles
-//        for (Element tracks : doc2.select("div.displayDetailLink"))
-//        {
-////            System.out.println(tracks);
-//            //start crawling the html by tag
-//            for (Element links : tracks.getElementsByTag("a"))
-//            {
-//                this.libraryM.add(links.text());
-//
-//            }
-//        }
-
-        //Find all authors or call numbers
-//        for (Element tracks2 : doc2.select("div.displayElementWrapper"))
-//        for (Element tracks2 : doc2.select("div.results_every_four"))
-//        for (Element tracks2 : doc2.select("div.results_bio"))
-        for (Element tracks2 : doc2.select("div.PREFERRED_CALLNUMBER"))
-        {
-
-//            this.libraryM.add(tracks2.text());
-//            LibraryMaterial lm = new LibraryMaterial(tracks2.id("title"), tracks2.id(""));
-//            tracks2.select("div#");
-//            String resultBio = tracks2.text();
-
-            LibraryMaterial lm = new LibraryMaterial(tracks2.text(), "null", "null");
-            this.libraryM.add(lm);
-
-        }
-//        displayElementText text-p highlightMe PREFERRED_CALLNUMBER
-//        displayElementText text-p highlightMe INITIAL_AUTHOR_SRCH
-
-        //class of availability #: availableDiv availableCountSection
-        // class of hold #: availableDiv holdsCountSection
-        //class of copies #: availableDiv copiesCountSection
-    }
-
-    public void getMaterialTypeResults(Document doc2 ) throws IOException
-    {
-        for (Element tracks2 : doc2.select("div.INITIAL_AUTHOR_SRCH"))
-        {
-            LibraryMaterial lm = new LibraryMaterial("null","null" , tracks2.text());
-            this.libraryM.add(lm);
-        }
-    }
-
-    public void getAuthorResults(Document doc2 ) throws IOException
-    {
-        for (Element tracks2 : doc2.select("div.INITIAL_AUTHOR_SRCH"))
-        {
-            LibraryMaterial lm = new LibraryMaterial("null", tracks2.text(), "null");
-            this.libraryM.add(lm);
         }
     }
 
@@ -198,14 +115,14 @@ public class DataAccessObject implements Database_Access_IF
         }
 
         //Show what we found
-        int numOfResultsFound = libraryM.size();
-        System.out.println("Number of results found for " + SEARCH_STRING + " : " + numOfResultsFound + "\n");
-
-        int length = libraryM.size();
-        for (int i = 0; i < length; i++)
-        {
-            System.out.println(libraryM.get(i));
-        }
+//        int numOfResultsFound = libraryM.size();
+//        System.out.println("Number of results found for " + SEARCH_STRING + " : " + numOfResultsFound + "\n");
+//
+//        int length = libraryM.size();
+//        for (int i = 0; i < length; i++)
+//        {
+//            System.out.println(libraryM.get(i));
+//        }
 
 //        return (ArrayList<String>) libraryM;
         return libraryM;

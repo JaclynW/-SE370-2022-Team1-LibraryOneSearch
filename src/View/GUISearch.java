@@ -1,59 +1,3 @@
-//package View;
-//import javax.swing.*;
-//import java.awt.*;
-//
-//
-//public class GUISearch {
-//    public static void main(String args[]) {
-//
-//        //Creating the Frame
-//        JFrame frame = new JFrame("libraryonesearch.com");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(800, 800);
-//        frame.setBackground(Color.WHITE);
-//
-//        JPanel panel = new JPanel(new GridBagLayout());
-//        GridBagConstraints c = new GridBagConstraints();
-//        //Insets insets = new Insets(4, 4, 4, 4);
-//
-//
-//
-//
-//        //Creating the panel at bottom and adding components
-////             // the panel is not visible in output
-////            JLabel title = new JLabel("Library OneSearch", JLabel.NORTH);
-////            title.setFont(new Font("Serif", Font.BOLD, 48));
-////            title.setForeground(Color.black);
-//
-//        //JLabel desc = new JLabel("Use Library OneSearch to locate books, magazines, and other articles of literature at San Diego based Libraries", JLabel.CENTER);
-//        //desc.setFont(new Font("Serif", Font.PLAIN, 25));
-//        JTextArea textArea = new JTextArea(10,20);
-//        textArea.append("Use Library OneSearch to locate books, magazines, and other articles of literature at San Diego based Libraries");
-//        textArea.setFont(new Font("Serif", Font.PLAIN, 16));
-//        textArea.setLineWrap(true);
-//        textArea.setWrapStyleWord(true);
-//        textArea.setEditable(false);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 1;
-//        c.gridy = 1;
-//        panel.add(textArea,c);
-//        // desc.setForeground(Color.black);
-//
-//
-//
-////            JLabel select = new JLabel("Select Your Libraries Below", JLabel.SOUTH);
-////            select.setFont(new Font("Serif", Font.PLAIN, 40));
-////            select.setForeground(Color.black);
-//
-//        //Adding Components to the frame.
-//        //frame.getContentPane().add(BorderLayout.SOUTH, select);
-//        //frame.getContentPane().add(BorderLayout.NORTH, title);
-//        frame.getContentPane().add(BorderLayout.CENTER, panel);
-//        frame.setVisible(true);
-//    }
-//}
-
 package View;
 
 import Controller.UIController;
@@ -62,38 +6,123 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
+import java.io.IOException;
 import java.util.*;
 
 public class GUISearch extends JPanel implements ActionListener {
-
-    private JButton search, add, delete;
+    private JPanel searchScreen, top, center, bottom;
+    private JButton search, summary;
     private JTextField textField;
+    private JCheckBox branchOption1, branchOption2, branchOption3, branchOption4, branchOption5, branchOption6;
+    private JLabel title;
+    private String searchString, selectedBranch;
+    private ArrayList<String> selectedBranches;
+
 
     public GUISearch() {
 
-        search = new JButton("Search");
-        add = new JButton("Add");
-        delete = new JButton("Delete");
-        textField = new JTextField(20);
-        add.addActionListener(this);
-        delete.addActionListener(this);
         setLayout(new BorderLayout());
-        JPanel top = new JPanel();
-        top.add(search);
+
+        // Create the individual cards (i.e., the different screens)
+        searchScreen = new JPanel();
+        searchScreen.setLayout(new BorderLayout());
+
+        // Add a centered title to the top of the screen
+        title = new JLabel("Library OneSearch");
+        title.setFont(new Font("Arial", Font.BOLD, 18));
+        searchScreen.add(title, BorderLayout.PAGE_START);
+
+        search = new JButton("Search");
+        branchOption1 = new JCheckBox("Carlsbad Cole");
+        branchOption2 = new JCheckBox("Carlsbad Dove");
+        branchOption3 = new JCheckBox("Oceanside Main");
+        branchOption4 = new JCheckBox("Oceanside Mission");
+        branchOption5 = new JCheckBox("Vista County");
+        branchOption6 = new JCheckBox("San Diego County");
+
+
+        textField = new JTextField(20);
+
+
+        top = new JPanel();
+        top.add(searchScreen);
+
+        searchScreen.add(textField, BorderLayout.PAGE_END);
         add(top, BorderLayout.NORTH);
-        JPanel bottom = new JPanel();
-        bottom.add(add);
-        bottom.add(delete);
-        add(bottom, BorderLayout.SOUTH);
+
+        center = new JPanel();
+        center.add(branchOption1);
+        center.add(branchOption2);
+        center.add(branchOption3);
+        center.add(branchOption4);
+        center.add(branchOption5);
+        center.add(branchOption6);
+
+        add(center, BorderLayout.CENTER);
+
+        bottom = new JPanel();
+        bottom.add(search);
+        add(bottom, BorderLayout.PAGE_END);
+        search.addActionListener(this);
         setVisible(true);
         setSize(400, 500);
     }
 
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == add) {
-            UIController.getInstance().changeCard("Next");
-        } else if (e.getSource() == delete) {
-            System.out.println("do something");
+        if (e.getSource() == search) {
+            //get search query
+            searchString = textField.getText();
+
+            //get selected library branch(s)
+            if (branchOption1.isSelected()) {
+                selectedBranch = "Serra";
+            }
+            if (branchOption2.isSelected()) {
+                selectedBranch = "Serra";
+            }
+            if (branchOption3.isSelected()) {
+                selectedBranch = "Oceanside";
+            }
+
+            //This is the upgrade to a list of library branches
+//            selectedBranches = new ArrayList<>();
+//            if (branchOption1.isSelected()) {
+//                selectedBranches.add(branchOption1.getText());
+//            }
+//            if (branchOption2.isSelected()) {
+//                selectedBranches.add(branchOption2.getText());
+//            }
+//            if (branchOption3.isSelected()) {
+//                selectedBranches.add(branchOption3.getText());
+//            }
+
+            //search
+            if(searchString.isEmpty()){
+                System.out.println("Enter something to search.");
+            }
+
+            try {
+                UIController.libraryOneSearch(searchString, selectedBranch);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+
+            //make a View Summary Page button appear
+            summary = new JButton("View Summary Page");
+            bottom.add(summary);
+            add(bottom,BorderLayout.PAGE_END);
+            revalidate();
+            repaint();
+            setVisible(true);
+
+            //Check for click on summary button
+            summary.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    UIController.getInstance().changeCard("Summary");
+                }
+            });
+
         }
     }
 

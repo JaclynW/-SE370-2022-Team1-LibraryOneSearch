@@ -85,16 +85,8 @@ public class LibraryMaterial
 
     @Override
     public String toString() {
-//        return "LibraryMaterial{" +
-//                "author='" + author + '\'' +
-//                ", title='" + title + '\'' +
-//                ", ISBN=" + ISBN +
-//                ", materialType='" + materialType + '\'' +
-//                ", availability=" + availability + '\'' +
-//                ", libSystem=" + libSystem +
-//                ", link='" + link + '\'' +
-//                '}';
-        return "----Library Material----" + "\n" +
+
+        return
                 "Title: " + title + "\n" +
                 "Author: " + author + "\n" +
                 "Material type: " + materialType + "\n" +

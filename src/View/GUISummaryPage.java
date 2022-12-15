@@ -1,124 +1,7 @@
-///*
-//package View;
-//
-//import javax.swing.*;
-//import java.awt.*;
-//
-//
-//public class GUISummaryPage {
-//    public static void main(String args[]) {
-//
-//        //Creating the Frame
-//        JFrame frame = new JFrame("Library OneSearch");
-//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        frame.setSize(800, 800);
-//        frame.setBackground(Color.WHITE);
-//
-//        JPanel panel = new JPanel(new GridBagLayout());
-//        GridBagConstraints c = new GridBagConstraints();
-//
-//
-//        JTextArea textArea = new JTextArea(30,20);
-//        textArea.append("Library OneSearch");
-//        textArea.setFont(new Font("Calibri", Font.PLAIN, 16));
-//        textArea.setLineWrap(true);
-//        textArea.setWrapStyleWord(true);
-//        textArea.setEditable(false);
-//        c.fill = GridBagConstraints.HORIZONTAL;
-//        c.weightx = 0.5;
-//        c.gridx = 1;
-//        c.gridy = 1;
-//        panel.add(textArea,c);
-//
-//
-//        frame.getContentPane().add(BorderLayout.CENTER, panel);
-//        frame.setVisible(true);
-//    }
-//} */
-//
-//package View;
-//// Java program to create a blank text
-//// field of definite number of columns.
-//import java.awt.*;
-//import java.awt.event.*;
-//import javax.swing.*;
-//class GUISummaryPage extends JFrame implements ActionListener {
-//    // JTextField
-//    static JTextField t;
-//
-//    // JTextArea
-//    static JTextArea a;
-//
-//    // JFrame
-//    static JFrame f;
-//
-//    // JButton
-//    static JButton b;
-//
-//    // label to display text
-//    static JLabel l;
-//
-//    // default constructor
-//    GUISummaryPage() {}
-//
-//    // main class
-//    public static void main(String[] args)
-//    {
-//        // create a new frame to store text field and button
-//        f = new JFrame("Library OneSearch Application");
-//
-//        // create a label to display text
-//        l = new JLabel("nothing entered");
-//
-//        // create a new button
-//        b = new JButton("search");
-//
-//        // create a object of the text class
-//        GUISummaryPage te = new GUISummaryPage();
-//
-//        // addActionListener to button
-//        b.addActionListener(te);
-//
-//        // create a object of JTextField with 16 columns
-//        t = new JTextField(16);
-//
-//        a = new JTextArea();
-//        a.append("Library OneSearch");
-//        a.setForeground(new Color(147, 112, 219));
-//
-//        // create a panel to add buttons and textfield
-//        JPanel p = new JPanel();
-//
-//        // add buttons and textfield to panel
-//        p.add(a);
-//        p.add(t);
-//        p.add(b);
-//        p.add(l);
-//        // add panel to frame
-//        f.add(p);
-//
-//        // set the size of frame
-//        f.setSize(800, 800);
-//
-//        f.show();
-//    }
-//
-//    // if the button is pressed
-//    public void actionPerformed(ActionEvent e)
-//    {
-//        String s = e.getActionCommand();
-//        if (s.equals("search")) {
-//            // set the text of the label to the text of the field
-//            l.setText(t.getText());
-//
-//            // set the text of field to blank
-//            t.setText("");
-//        }
-//    }
-//}
-
 package View;
 import Controller.UIController;
+import Model.DataTransferObject;
+import Model.LibraryMaterial;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -128,23 +11,79 @@ import java.util.*;
 
 public class GUISummaryPage extends JPanel implements ActionListener {
 
-    private JButton back;
+    private JButton back, viewResults;
+    private JPanel top, center, bottom, libraryResult, listPanel;
+    private JLabel title, resultNumber, matStart, matTitle, matAuthor, matType, matAvail;
+    private int numberOfResults;
     private JTextField textField;
+    private static ArrayList<LibraryMaterial> libraryMat = new ArrayList<>();
 
     public GUISummaryPage() {
+
+        setLayout(new BorderLayout());
+        top = new JPanel(new BorderLayout());
+        // Add a centered title to the top of the screen
+        title = new JLabel("Summary Page");
+//        numberOfResults = UIController.getLibraryM().size();
+//        resultNumber = new JLabel( numberOfResults + " results found. ");
+        title.setFont(new Font("Arial", Font.BOLD, 18));
+        top.add(title, BorderLayout.PAGE_START );
+//        top.add(resultNumber, BorderLayout.CENTER);
+        viewResults = new JButton("Click to show results");
+        top.add(viewResults, BorderLayout.PAGE_END);
+        add(top, BorderLayout.PAGE_START );
+
+        //Show the results
+        center = new JPanel();
+        viewResults.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                for (LibraryMaterial material: libraryMat)
+                {
+
+                    libraryResult = new JPanel();
+                    matTitle = new JLabel(material.getTitle());
+                    matAuthor = new JLabel(material.getAuthor());
+                    matType = new JLabel(material.getMaterialType());
+                    matAvail = new JLabel(material.getAvailability());
+//                    matStart = new JLabel(material.toString());
+                    libraryResult.add(matTitle);
+                    libraryResult.add(matAuthor);
+                    libraryResult.add(matType);
+                    libraryResult.add(matAvail);
+                    center.add(libraryResult);
+
+                }
+                revalidate();
+                repaint();
+                setVisible(true);
+            }
+        });
+
+
+        add(center, BorderLayout.CENTER);
+
+        bottom = new JPanel();
         back = new JButton("Back");
         textField = new JTextField(20);
+        bottom.add(back);
+        add(bottom, BorderLayout.SOUTH);
         back.addActionListener(this);
-        setLayout(new BorderLayout());
-        add(back);
+
         setVisible(true);
         setSize(400, 500);
     }
 
+    public static void setResultsList(ArrayList<LibraryMaterial> lm){
+        libraryMat = lm;
+    }
+
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == back) {
-            UIController.getInstance().changeCard("Next");
+            UIController.getInstance().changeCard("Back");
         }
+
 
     }
 }
