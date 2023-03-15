@@ -14,7 +14,7 @@ public class LibraryMaterial
     String link = " "; //this is a link the library material's info page on the library website so the user can take further action
 
     /**
-     * Constructors
+     * Full Constructor
      */
     public LibraryMaterial(String title, String author, String matType)
     {
@@ -23,6 +23,9 @@ public class LibraryMaterial
         this.materialType = matType;
     }
 
+    /**
+     * Default Constructor
+     * */
     public LibraryMaterial()
     {
         this.title = "title";
@@ -83,6 +86,13 @@ public class LibraryMaterial
         this.availability = availability;
     }
 
+    /**
+     * toString
+     *
+     * For any LibraryMaterial object, a list of the object's
+     * attributes are formatted and ready to print.
+     *
+     * */
     @Override
     public String toString() {
 

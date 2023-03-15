@@ -65,6 +65,19 @@ public class DataAccessObject implements Database_Access_IF
 
     public void setLibrarySystem(String librarySystem) {this.librarySystem = librarySystem;}
 
+    /**
+     * getResultBio
+     *
+     * Uses JSoup to grab a copy of the HTML of the given library search page,
+     * then looks for a div in the HTML that is called "div.results_bio". The
+     * result bio is the name of the divs that hold all the information about
+     * a given library material result.Once this div is found sub divs are located
+     * for the title and author of a library material, and this info is saved in a
+     * LibraryMaterial object.
+     *
+     * @param doc2
+     *      this is the HTML document retrieved with JSoup for the given library database url.
+     * */
     public void getResultBio(Document doc2) throws IOException
     {
         for (Element tracks2 : doc2.select("div.results_bio"))
@@ -96,7 +109,13 @@ public class DataAccessObject implements Database_Access_IF
         }
     }
 
-    //Updates url and prints list of results to console
+    /**
+     * getResults
+     *
+     * Updates url and prints list of results to console. Uses
+     * getResultBio method to aggregate results.
+     *
+     * */
     public ArrayList<LibraryMaterial> getResults() throws IOException
     {
 
