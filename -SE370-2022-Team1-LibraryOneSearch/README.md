@@ -1,0 +1,8 @@
+# LibraryOneSearch
+Library OneSearch aims to be a search engine for literature amongst public library systems in San Diego. There are other search engines, like MiraCosta’s Library OneSearch, that search for literature but only within the limits of their organization. The new system would provide a convenience to the user, allowing them to find all of the possible locations for their searched book, newspaper article, textbook, audiobook, or paperback. After checking all library databases for literature material of the users choosing, the search result would display a small summary, status of the book (if it’s available/unavailable), and the location of the book.
+
+With Library OneSearch, a desktop Java application,  users can enter their desired text name or ISBN number into the interface. The backend uses this data to search publicly available library catalogs for the text. This is done using web drivers and a web scraping bot to navigate the library websites and collect the data each library has about the user’s text. This data is aggregated, organized, and displayed to the user, summarizing which libraries have their specific text. Library OneSearch will help users save time by showing them library material availability in their local San Diego area with a single search.
+
+## System Demo
+![ System Demo](LOSDemo2.gif)
+For this system demo, the user searches using the search term "vegan" and selects the library branches that they would like to search. Once Library OneSearch has completed a scrape of the selected libraries, an option to view a summary page of results is displayed. The user can click this button to be directed to the Summary Page, where they can view the results of the search.
